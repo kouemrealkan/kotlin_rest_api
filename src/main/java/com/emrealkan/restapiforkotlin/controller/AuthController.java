@@ -15,6 +15,7 @@ import static org.springframework.http.ResponseEntity.status;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.IOException;
 
@@ -37,7 +38,11 @@ public class AuthController {
         try {
             boolean f=  imageUploadHelper.uploadFile(file);
             if(f){
-                return new ResponseEntity<>("IMAGE UPLOAD SUCCESS",HttpStatus.OK);
+                //return new ResponseEntity<>("IMAGE UPLOAD SUCCESS",HttpStatus.OK);
+                //return new ResponseEntity.ok("success",ServletUriComponentsBuilder.fromCurrentContextPath().path("/images/").path(file.getOriginalFilename()).toUriString());
+
+                return ResponseEntity.status(HttpStatus.OK).body(ServletUriComponentsBuilder.fromCurrentContextPath().path("/images/").path(file.getOriginalFilename()).toUriString());
+
             }
 
         }catch (Exception e){
@@ -55,7 +60,7 @@ public class AuthController {
             boolean f=  imageUploadHelper.uploadFile(file);
             if(f){
                 authService.registerUser(file,registerRequest);
-                return new ResponseEntity<>("USER REGISTER SUCCESS",HttpStatus.OK);
+                return ResponseEntity.status(HttpStatus.OK).body(ServletUriComponentsBuilder.fromCurrentContextPath().path("/images/").path(file.getOriginalFilename()).toUriString());
             }
 
         }catch (Exception e){

@@ -1,10 +1,12 @@
 package com.emrealkan.restapiforkotlin.helper;
 
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -12,7 +14,14 @@ import java.nio.file.StandardCopyOption;
 
 @Component
 public class ImageUploadHelper {
-    public final String UPLOAD_DIR = "C:\\Users\\alkan\\IdeaProjects\\restapiforkotlin\\restapiforkotlin\\src\\main\\resources\\static\\uploads\\images";
+   // public final String UPLOAD_DIR = "C:\\Users\\alkan\\IdeaProjects\\restapiforkotlin\\restapiforkotlin\\src\\main\\resources\\static\\uploads\\images";
+
+    public final String UPLOAD_DIR = new ClassPathResource("static/uploads/images").getFile().getAbsolutePath();
+
+    public ImageUploadHelper() throws IOException
+    {
+
+    }
 
     public boolean uploadFile(MultipartFile file){
 
