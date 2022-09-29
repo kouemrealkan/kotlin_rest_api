@@ -7,6 +7,7 @@ import com.emrealkan.restapiforkotlin.service.AuthService;
 import com.nimbusds.jose.proc.SecurityContext;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,7 @@ import java.io.IOException;
 @AllArgsConstructor
 public class AuthController {
 
+    // ServletUriComponentsBuilder.fromCurrentContextPath().path("/images/").path(file.getOriginalFilename()).toUriString()
     private final AuthService authService;
 
     @Autowired
@@ -41,7 +43,7 @@ public class AuthController {
                 //return new ResponseEntity<>("IMAGE UPLOAD SUCCESS",HttpStatus.OK);
                 //return new ResponseEntity.ok("success",ServletUriComponentsBuilder.fromCurrentContextPath().path("/images/").path(file.getOriginalFilename()).toUriString());
 
-                return ResponseEntity.status(HttpStatus.OK).body(ServletUriComponentsBuilder.fromCurrentContextPath().path("/images/").path(file.getOriginalFilename()).toUriString());
+                return ResponseEntity.status(HttpStatus.OK).body("File Upload Success");
 
             }
 
@@ -60,7 +62,7 @@ public class AuthController {
             boolean f=  imageUploadHelper.uploadFile(file);
             if(f){
                 authService.registerUser(file,registerRequest);
-                return ResponseEntity.status(HttpStatus.OK).body(ServletUriComponentsBuilder.fromCurrentContextPath().path("/images/").path(file.getOriginalFilename()).toUriString());
+                return ResponseEntity.status(HttpStatus.OK).body("File Upload Success!");
             }
 
         }catch (Exception e){

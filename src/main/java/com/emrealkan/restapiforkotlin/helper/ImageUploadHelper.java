@@ -1,5 +1,6 @@
 package com.emrealkan.restapiforkotlin.helper;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -9,6 +10,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
@@ -16,14 +18,23 @@ import java.nio.file.StandardCopyOption;
 public class ImageUploadHelper {
    // public final String UPLOAD_DIR = "C:\\Users\\alkan\\IdeaProjects\\restapiforkotlin\\restapiforkotlin\\src\\main\\resources\\static\\uploads\\images";
 
-    public final String UPLOAD_DIR = new ClassPathResource("static/uploads/images").getFile().getAbsolutePath();
+    private final String uploadLocation;
 
-    public ImageUploadHelper() throws IOException
+   // public final String UPLOAD_DIR = new ClassPathResource("static/uploads/images").getFile().getAbsolutePath();
+
+    public ImageUploadHelper(@Value("${upload.location}") String uploadLocation) throws IOException
     {
-
+           this.uploadLocation = uploadLocation;
+           Path uploadPath = Paths.get(uploadLocation);
+           if(!Files.exists(uploadPath)){
+               Files.createDirectory(uploadPath);
+           }
     }
 
     public boolean uploadFile(MultipartFile file){
+
+        String fileName = file.getOriginalFilename();
+        Path dest = Paths.get(uploadLocation + "/" + fileName);
 
         boolean f = false;
 
@@ -38,7 +49,9 @@ public class ImageUploadHelper {
             fileOutputStream.close();
             f = true;  */
 
-            Files.copy(file.getInputStream(), Paths.get(UPLOAD_DIR+File.separator+file.getOriginalFilename()), StandardCopyOption.REPLACE_EXISTING);
+           // System.out.println("directory 1 :" + UPLOAD_DIR);
+            Files.copy(file.getInputStream(), dest, StandardCopyOption.REPLACE_EXISTING);
+           // System.out.println("directory 2 :" + UPLOAD_DIR);
             f = true;
 
         }catch (Exception e){
