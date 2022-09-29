@@ -49,6 +49,7 @@ public class ImageUploadHelper {
             fileOutputStream.close();
             f = true;  */
 
+            System.out.println("zaaaa xD" + dest.toFile().getAbsolutePath());
            // System.out.println("directory 1 :" + UPLOAD_DIR);
             Files.copy(file.getInputStream(), dest, StandardCopyOption.REPLACE_EXISTING);
            // System.out.println("directory 2 :" + UPLOAD_DIR);

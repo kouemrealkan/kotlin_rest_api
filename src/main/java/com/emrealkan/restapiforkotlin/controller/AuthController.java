@@ -62,7 +62,7 @@ public class AuthController {
             boolean f=  imageUploadHelper.uploadFile(file);
             if(f){
                 authService.registerUser(file,registerRequest);
-                return ResponseEntity.status(HttpStatus.OK).body("File Upload Success!");
+                return ResponseEntity.status(HttpStatus.OK).body(ServletUriComponentsBuilder.fromCurrentContextPath().path("/uploads/images/").path(file.getOriginalFilename()).toUriString());
             }
 
         }catch (Exception e){
