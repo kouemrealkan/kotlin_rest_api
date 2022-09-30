@@ -19,9 +19,9 @@ public class StorageController {
     private StorageService service;
 
 
-    @PostMapping("/store-img")
-    public ResponseEntity<?> uploadImage(@RequestParam("file") MultipartFile file) throws IOException {
-        String uploadImage = service.uploadImage(file);
+    @PostMapping(value = "/store-img", consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<?> uploadImage(@RequestParam("file") MultipartFile file,Long userId) throws IOException {
+        String uploadImage = service.uploadImage(file,userId);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(uploadImage);
     }

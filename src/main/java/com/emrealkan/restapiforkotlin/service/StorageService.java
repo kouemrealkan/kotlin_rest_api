@@ -1,8 +1,11 @@
 package com.emrealkan.restapiforkotlin.service;
 
+import com.emrealkan.restapiforkotlin.exceptions.AppException;
 import com.emrealkan.restapiforkotlin.helper.ImageUtils;
 import com.emrealkan.restapiforkotlin.model.ImageData;
+import com.emrealkan.restapiforkotlin.model.User;
 import com.emrealkan.restapiforkotlin.repository.StorageRepository;
+import com.emrealkan.restapiforkotlin.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,13 +17,22 @@ import java.util.Optional;
 public class StorageService {
     @Autowired
     private StorageRepository repository;
+    private UserRepository userRepository;
 
-    public String uploadImage(MultipartFile file) throws IOException {
+    public StorageService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
-        ImageData imageData = repository.save(ImageData.builder()
+    public String uploadImage(MultipartFile file,Long userId) throws IOException {
+
+        User user = userRepository.findById(userId).orElseThrow(()->new AppException("user not found"));
+
+        ImageData imageData = (ImageData.builder()
                 .name(file.getOriginalFilename())
                 .type(file.getContentType())
+                .user(user)
                 .imageData(ImageUtils.compressImage(file.getBytes())).build());
+            repository.save(imageData);
         if (imageData != null) {
             return "file uploaded successfully : " + file.getOriginalFilename();
         }
