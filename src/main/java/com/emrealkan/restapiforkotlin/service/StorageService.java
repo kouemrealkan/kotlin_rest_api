@@ -32,4 +32,10 @@ public class StorageService {
         byte[] images=ImageUtils.decompressImage(dbImageData.get().getImageData());
         return images;
     }
+
+    public byte[] downloadImageByUserId(Long userId){
+        Optional<ImageData> dbImageData  =repository.findByUserId(userId);
+        byte[] images=ImageUtils.decompressImage(dbImageData.get().getImageData());
+        return images;
+    }
 }

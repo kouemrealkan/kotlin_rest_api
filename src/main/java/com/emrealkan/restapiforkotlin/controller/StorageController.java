@@ -35,4 +35,15 @@ public class StorageController {
 
     }
 
+    @GetMapping("/get-image/by-user/{userId}")
+    public ResponseEntity<?> downloadImageByUserID(@PathVariable Long userId){
+        byte[] imageData=service.downloadImageByUserId(userId);
+        return ResponseEntity.status(HttpStatus.OK)
+                .contentType(MediaType.valueOf("image/png"))
+                .body(imageData);
+
+    }
+
+
+
 }

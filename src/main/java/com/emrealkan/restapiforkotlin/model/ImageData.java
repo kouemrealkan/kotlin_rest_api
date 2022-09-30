@@ -23,4 +23,8 @@ public class ImageData {
     @Lob
     @Column(name = "imagedata",length = 1000)
     private byte[] imageData;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id",referencedColumnName = "id")
+    private User user;
 }
