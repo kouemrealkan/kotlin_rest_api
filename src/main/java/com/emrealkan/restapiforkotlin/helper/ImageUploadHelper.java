@@ -32,6 +32,7 @@ public class ImageUploadHelper {
     }
 
     public boolean uploadFile(MultipartFile file){
+        
 
         String fileName = file.getOriginalFilename();
         Path dest = Paths.get(uploadLocation + "/" + fileName);

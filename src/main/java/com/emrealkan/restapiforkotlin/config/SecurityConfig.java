@@ -61,6 +61,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         .permitAll()
                         .antMatchers("/api/v1/movie-category/**")
                         .permitAll()
+                        .antMatchers("/api/v1/storage/**")
+                        .permitAll()
                         .anyRequest()
                         .authenticated())
                 .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
